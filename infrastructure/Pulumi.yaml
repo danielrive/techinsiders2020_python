@@ -1,0 +1,6 @@
+name: tech-insiders-2020-python
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Globant tech insiders 2020
