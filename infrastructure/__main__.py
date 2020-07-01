@@ -13,4 +13,11 @@ aws_config = aws.Provider("aws",
                           profile=os.getenv("profile"))
 
 if __name__ == "__main__":
-    vpc_microservice = aws_vpc.vpc("10.11.0.0/16", "test", 2, aws_config)
+    cidr_public=["10.11.1.0/24","10.11.2.0/24"] # CIDR block for publics subnets
+    cidr_private=["10.11.100.0/24","10.11.101.0/24"]  # CIDR block for privates subnets
+    
+    vpc_microservice = aws_vpc.vpc("danielr","10.11.0.0/16",cidr_public,cidr_private ,aws_config)
+    net_info = vpc_microservice.create_basic_networking()
+
+
+
