@@ -126,14 +126,15 @@ class vpc():
                                  subnet_id=self.private_subnets[i].id,
                                  route_table_id=rt_private.id,
                                  __opts__= pulumi.ResourceOptions(provider=self.provider))
-
+        
+        # Response
+        
         networking = {  
                         'vpc_id':vpc_pulumi.id,
-                        'subnet_public_1':'sss',
-                        'subnet_public_2':'ssss',
-                        'subnet_private_1':'ssss',
-                        'subnet_private_2':'ssss'
-        }
+                        'public_subnets': [__item.id for __item in self.public_subnets],
+                        'private_subnets': [__item.id for __item in self.private_subnets]
+     #                   'public_subnets': self.private_subnets
+                    }
 
         return networking
 
