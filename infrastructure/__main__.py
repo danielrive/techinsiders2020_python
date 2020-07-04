@@ -53,8 +53,27 @@ if __name__ == '__main__':
     # ALB creation 
     alb = aws_alb.aws_alb(aws_config)
     
+
     create_alb = alb.create_alb('danielr',net_info['private_subnets'],True,[alb_sg['sg_id']])
     
+    tg_micro_health = { 
+                        'enabled' : True,
+                        'healthyThreshold': 3,
+                        'interval': 6,
+                        'matcher': 200,
+                        'path': '/',
+                        'port': 80,
+                        'protocol': 'HTTP',
+                        'timeout': 5,
+                        'unhealthyThreshold': 2
+                    }
 
+    tg_ecs = alb.create_tg(80,'HTTP','ip',tg_micro_health)
+    
+    # Create Listener, specify the variable default_action following this format
+        # default_action= ['forward',arn_tg] ---> for forward to tg
+        # default_action= ['redirect',port,protocol] ---> for forward to tg
+
+    listenre = alb.create_listener("HTTP",80, ['forward',tg_ecs['tg_arn']])
 
 
