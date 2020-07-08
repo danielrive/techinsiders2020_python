@@ -1,8 +1,6 @@
-import os
 import pulumi
 import pulumi_aws as aws
-import string
-import random
+
 
 class aws_alb():
     def __init__(self,provider):

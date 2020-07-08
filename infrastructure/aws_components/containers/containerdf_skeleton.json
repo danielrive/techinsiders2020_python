@@ -1,0 +1,58 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "reeplace_name",
+            "image": "reeplace_image",
+            "cpu": 0,
+            "memory": null,
+            "portMappings": [
+                {
+                    "containerPort": reeplace_containerPort,
+                    "hostPort": reeplace_hostPort,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "links": null,
+            "entryPoint": null,
+            "memoryReservation": null,
+            "command": null,
+            "environment": null,
+            "environmentFiles": null,
+            "mountPoints": null,
+            "volumesFrom": null,
+            "linuxParameters": null,
+            "secrets": null,
+            "dependsOn": null,
+            "startTimeout": null,
+            "stopTimeout": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "disableNetworking": true,
+            "privileged": true,
+            "readonlyRootFilesystem": null,
+            "dnsServers": [],
+            "dnsSearchDomains": [],
+            "extraHosts": [],
+            "dockerSecurityOptions": [],
+            "interactive": null,
+            "pseudoTerminal": null,
+            "dockerLabels": null,
+            "ulimits": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "secretOptions": null,
+                "options": {
+                    "awslogs-group": "/ecs/reeplace_name",
+                    "awslogs-region": "reeplace_region",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "healthCheck": null,
+            "systemControls": null,
+            "resourceRequirements": null,
+            "firelensConfiguration": null
+        }
+    ]
+}

@@ -5,6 +5,8 @@ import pulumi_aws as aws
 from aws_components.networking import aws_vpc
 from aws_components.ALB import aws_alb
 from aws_components.security import aws_sg
+from aws_components.security import aws_iam
+from aws_components.containers import aws_ecs
 
 # load env variables
 load_dotenv()
@@ -72,8 +74,25 @@ if __name__ == '__main__':
     
     # Create Listener, specify the variable default_action following this format
         # default_action= ['forward',arn_tg] ---> for forward to tg
-        # default_action= ['redirect',port,protocol] ---> for forward to tg
+        # default_action= ['redirect',port,protocol] ---> for http to https redirect
 
-    listenre = alb.create_listener("HTTP",80, ['forward',tg_ecs['tg_arn']])
+    listener_micro = alb.create_listener('HTTP',80, ['forward',tg_ecs['tg_arn']])
+
+    # ECS Creation
+        # IAM Roles
+    ecs_iam = aws_iam.iam(aws_config)
+    execution_role = ecs_iam.create_role('exec_role_micro', 'ecs')
+    task_role = ecs_iam.create_role('task_role_micro', 'ecs')
+    
+    ecs_aws = aws_ecs.aws_ecs('danielr', aws_config)
+    
+    task_micro = ecs_aws.create_taskdf('512', '1024', task_role['role_arn'], execution_role['role_arn'])
+
+    services_tg_mapping = [ [tg_ecs['tg_arn'], 'micro-service-tech-globant', '80'] ]
+    
+    ecs_service = ecs_aws.create_service('python_micro',1,1,services_tg_mapping,net_info['private_subnets'],alb_sg['sg_id'])
+
+
+    
 
 
