@@ -1,6 +1,6 @@
-name: tech-insiders-2020-python
+name: Reeplace_Project_Name_to_Create
 runtime:
   name: python
   options:
     virtualenv: venv
-description: Globant tech insiders 2020
+description: Reeplace_Description_for_the_Project_to_Create
