@@ -8,13 +8,16 @@ from aws_components.security import aws_sg
 from aws_components.security import aws_iam
 from aws_components.containers import aws_ecs
 
+# Pulumi configs
+config = pulumi.Config()
+
 # load env variables
 load_dotenv()
 
 # creating custom aws provider
 aws_config = aws.Provider('aws',
-                          region=os.getenv('region'),
-                          profile=os.getenv('profile'))
+                          region=config.require('aws_region'),
+                          profile=config.require('aws_profile'))
 
 if __name__ == '__main__':
     # Networking creation
