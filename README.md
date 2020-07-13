@@ -8,12 +8,12 @@ This project deploy a microservice in AWS ECS, this one was create in Python and
 * **AWS Account:** The Pulumi code was created to deploy resources in AWS Cloud, you need to have an account and create an IAM user with programmatic access.
 * **Pulumi Account:** To store the state of your infrastructure and manage your project you need to create a Pulumi account, please follow this link to more information.
 
-Go through the Pulumi documentation to install Pulumi CLI
- https://www.Pulumi.com/docs/intro/console/accounts-and-organizations/accounts/
+    Go through the Pulumi documentation to install Pulumi CLI
+  https://www.Pulumi.com/docs/intro/console/accounts-and-organizations/accounts/
 * **Pulumi CLI:** To manage Pulumi you need to install Pulumi CLI, with the CLI you can deploy infrastructure changes in your cloud provider.
 
-Go through the Pulumi documentation to install Pulumi CLI.
-https://www.Pulumi.com/docs/get-started/install/
+    Go through the Pulumi documentation to install Pulumi CLI.
+    https://www.Pulumi.com/docs/get-started/install/
 
 # AWS Architecture
 
@@ -87,6 +87,8 @@ If you don't want to maintain the resources created and delete the stack please 
 $ pulumi destroy
 
 $ pulumi stack rm
+
+$ pulumi logout
 ```
 
 
