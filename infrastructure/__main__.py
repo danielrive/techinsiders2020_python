@@ -5,7 +5,7 @@ import pulumi_aws as aws
 from aws_components.networking import aws_vpc
 from aws_components.ALB import aws_alb
 from aws_components.security import aws_sg
-from aws_components.security import aws_iam
+from aws_components.security_identity import aws_iam
 from aws_components.containers import aws_ecs
 
 # Pulumi configs
@@ -54,15 +54,15 @@ if __name__ == '__main__':
                         'cidrBlocks': ['0.0.0.0/0'],
                        }]
     # SG ALB creation 
-    security_group = aws_sg.aws_sg(aws_config)
+    security_group = aws_sg.aws_sg('sg_alb', net_info['vpc_id'], rule_alb_ingress, rule_alb_egress, aws_config)
 
-    alb_sg = security_group.create_sg('sg_alb',net_info['vpc_id'],rule_alb_ingress,rule_alb_egress)
+    alb_sg = security_group.create_sg()
     
     # ALB creation 
-    alb = aws_alb.aws_alb(aws_config)
+    alb = aws_alb.aws_alb('danielr', net_info['public_subnets'], False, [alb_sg['sg_id']], aws_config)
     
 
-    create_alb = alb.create_alb('danielr',net_info['private_subnets'],True,[alb_sg['sg_id']])
+    create_alb = alb.create_alb()
     
     tg_micro_health = { 
                         'enabled' : True,
@@ -76,7 +76,7 @@ if __name__ == '__main__':
                         'unhealthyThreshold': 2
                     }
 
-    tg_ecs = alb.create_tg(80,'HTTP','ip',tg_micro_health)
+    tg_ecs = alb.create_tg(80, 'HTTP', 'ip', tg_micro_health)
     
     # Create Listener, specify the variable default_action following this format
         # default_action= ['forward',arn_tg] ---> for forward to tg
@@ -86,18 +86,18 @@ if __name__ == '__main__':
 
     # ECS Creation
       # IAM Roles
-    ecs_iam = aws_iam.iam(aws_config)
+    ecs_iam = aws_iam.iam('ecs_iam', aws_config)
     execution_role = ecs_iam.create_role('exec_role_micro', 'ecs')
     task_role = ecs_iam.create_role('task_role_micro', 'ecs')
       
       # ECS components
-    ecs_aws = aws_ecs.aws_ecs('danielr', aws_config)
+    ecs_aws = aws_ecs.aws_ecs('danielr-ecs', aws_config)
     
     task_micro = ecs_aws.create_taskdf('512', '1024', task_role['role_arn'], execution_role['role_arn'])
 
     services_tg_mapping = [ [tg_ecs['tg_arn'], 'micro-service-tech-globant', '80'] ]
     
-    ecs_service = ecs_aws.create_service('python_micro',1,1,services_tg_mapping,net_info['private_subnets'],alb_sg['sg_id'])
+    ecs_service = ecs_aws.create_service('python_micro', services_tg_mapping, net_info['private_subnets'], alb_sg['sg_id'])
 
 
     

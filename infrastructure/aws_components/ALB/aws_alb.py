@@ -43,7 +43,7 @@ class aws_alb():
         self.provider = provider
         self.alb = []
 
-    def create_alb():
+    def create_alb(self):
         '''
         creates ALB with the parameters specified
         

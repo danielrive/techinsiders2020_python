@@ -7,7 +7,7 @@ class iam():
 
     Methods
     -------
-    create_role(aws_service)
+    create_role(name_role, aws_service)
         Creates an IAM role associate to AWS service
     '''
     def __init__(self, name, provider):
@@ -30,10 +30,13 @@ class iam():
                             'ec2' : 'ec2.amazonaws.com'
                        }
         
-    def create_role(self, aws_service ):
+    def create_role(self, name_role, aws_service ):
         '''
         Parameters
         ------------
+        name_role : str
+            An unique name to assign to the IAM resources
+
         aws_service : str
             An AWS service name that will be associated to the IAM Role, the name specify will be mapped
             in the aws_services dict
@@ -53,7 +56,7 @@ class iam():
             }],
             opts = pulumi.ResourceOptions(provider=self.provider))
 
-        ecs_role = aws.iam.Role('ecs_role'+name,
+        ecs_role = aws.iam.Role(name_role+name,
                     assume_role_policy = role_policy_doc.json,
                     __opts__= pulumi.ResourceOptions(provider=self.provider))
         
