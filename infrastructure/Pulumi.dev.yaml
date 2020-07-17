@@ -1,0 +1,3 @@
+config:
+  tech_insiders_danielrivera:aws_profile: daniel-globant
+  tech_insiders_danielrivera:aws_region: us-east-1

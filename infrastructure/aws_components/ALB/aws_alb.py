@@ -3,11 +3,59 @@ import pulumi_aws as aws
 
 
 class aws_alb():
-    def __init__(self,provider):
+    '''
+    A class used to represent a ALB with his components
+
+    Methods
+    -------
+    create_alb()
+        Creates an AWS ALB with the security group and subtnes specified
+    
+    create_listener(self,protocol, port, default_action, certificate='None')
+        Creates and associates a listener to ALB already created
+
+    create_rule(self, rule)
+        Creates an ALB rule and associates with the listener specify
+
+
+    create_tg(self ,port ,protocol, type, health_check)
+        Creates an Target Group to be associate to listener
+    '''
+
+    def __init__(self, name, subnets, internal, security_groups, provider):
+        '''
+        Parameters
+        ------------
+        name : str
+            An unique name to assign to ALB
+        subnets : list
+            An list with the subnets IDs in which the alb will be
+        internal : bool
+            The type of ALB to crete, for private ALB set this parameter to True
+        securitygroups : list
+            An list with the security groups IDs to attach to the ALB created 
+        '''
+
+        self.name = name
+        self.subnets = subnets
+        self.internal = internal
+        self.security_groups = security_groups
         self.provider = provider
         self.alb = []
 
-    def create_alb(self,name, subnets, internal,security_groups):
+    def create_alb():
+        '''
+        creates ALB with the parameters specified
+        
+        Parameters
+        ------------
+        none
+
+        Returns
+        --------
+        alb_info : dict
+            A dict with the id, arn and zone_id of the ALB created
+        '''
         self.name = name
         self.alb = aws.lb.LoadBalancer(name,
                     enable_deletion_protection=False,
@@ -29,6 +77,32 @@ class aws_alb():
         return alb_info
 
     def create_listener(self,protocol, port, default_action, certificate='None'):
+        '''
+        Creates/attaches a listener with the protocol and actions specified
+        By default the certificate have been set to None, specify an arn to associate
+        with the listener
+
+        Parameters
+        ------------
+        protocol : str
+            The protocol used for the listener to recieive the requests
+        port : int
+            A port in which the alb will listen the request
+        default_action : list
+            A list with the specifications to use as a default action,
+            there are two option, redirect the request(301) or forward the request to Target Group
+            the elements into the list depend of the action to take
+                default_action= ['forward',arn_tg] ---> for forward to tg
+                default_action= ['redirect',port,protocol] ---> for http to https redirect
+        certificate : str
+            An ARN of the AWS certicate that will use the listener, only apply gor https listeners
+   
+        Returns
+        --------
+        empty
+
+        '''
+
         if default_action[0] == 'forward':
             action =  {
                         'target_group_arn': default_action[1],
@@ -66,6 +140,37 @@ class aws_alb():
         pass
 
     def create_tg(self ,port ,protocol, type, health_check):
+        ''' 
+        Creates a Target group to bu used for the ALB to send request
+        
+        Parameters
+        ------------
+        port : int
+            The port in which the Target Group will listen the requests
+           
+        protocol : string
+            The protocol used for the Target Group to recieive the requests   
+        
+        type : str
+            Type of Target Group to create, ip or instance
+        health_check : dict
+            A dict with the configuration for the healh_checks, follow this structure
+                        'enabled' : bool,
+                        'healthyThreshold': int,
+                        'interval': int,
+                        'matcher': int,
+                        'path': str,
+                        'port': int,
+                        'protocol': str,
+                        'timeout': int,
+                        'unhealthyThreshold': int
+   
+        Returns
+        --------
+        tg_info : dict
+            A dict with the ID and ARN of the TG created
+        
+        '''        
 
         alb_tg = aws.lb.TargetGroup('tg-{}-{}'.format(port,self.name),
                                     port = port,

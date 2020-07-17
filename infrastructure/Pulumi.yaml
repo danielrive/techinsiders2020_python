@@ -1,0 +1,6 @@
+name: tech_insiders_danielrivera
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: testing readme

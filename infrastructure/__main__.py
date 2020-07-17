@@ -20,11 +20,14 @@ aws_config = aws.Provider('aws',
                           profile=config.require('aws_profile'))
 
 if __name__ == '__main__':
+    
     # Networking creation
-    cidr_public=['10.11.1.0/24','10.11.2.0/24']
-    cidr_private=['10.11.100.0/24','10.11.101.0/24']
+    cidr_public=['10.11.1.0/24','10.11.2.0/24']  # CIDR Block for publics subnets
+    cidr_private=['10.11.100.0/24','10.11.101.0/24'] # CIDR Block for publics subnets
 
+    # VPC creation
     vpc_microservice = aws_vpc.vpc('danielr','10.11.0.0/16',cidr_public,cidr_private ,aws_config)
+    
     net_info = vpc_microservice.create_basic_networking()
 
     # Security group
@@ -82,11 +85,12 @@ if __name__ == '__main__':
     listener_micro = alb.create_listener('HTTP',80, ['forward',tg_ecs['tg_arn']])
 
     # ECS Creation
-        # IAM Roles
+      # IAM Roles
     ecs_iam = aws_iam.iam(aws_config)
     execution_role = ecs_iam.create_role('exec_role_micro', 'ecs')
     task_role = ecs_iam.create_role('task_role_micro', 'ecs')
-    
+      
+      # ECS components
     ecs_aws = aws_ecs.aws_ecs('danielr', aws_config)
     
     task_micro = ecs_aws.create_taskdf('512', '1024', task_role['role_arn'], execution_role['role_arn'])
