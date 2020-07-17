@@ -1,3 +1,5 @@
+
+
 *.pyc
 venv/
 # vscod
@@ -141,3 +143,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Pulumi
+Pulumi.yaml
+Pulumi.*.yaml
+
