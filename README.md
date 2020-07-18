@@ -32,7 +32,7 @@ When you create a Pulumi account, Pulumi creates an organization by default, for
 
     With the account already create and Pulumi CLI installed you can authenticate your terminal with Pulumi service.
     ```sh
-    $ Pulumi login
+    $ pulumi login
     ```
     Pulumi will prompt you for an access token, including a way to launch your web browser to easily obtain one. Also,you can use `PULUMI_ACCESS_TOKEN` environment variable to set the Pulumi token.
 

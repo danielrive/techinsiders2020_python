@@ -58,7 +58,7 @@ class aws_sg():
             A dict with the sg_id and ARN
 
         '''
-        sg = aws.ec2.SecurityGroup('sg-' + self.name, 
+        sg = aws.ec2.SecurityGroup(self.name, 
                     description = 'sg-' + self.name,
                     vpc_id = self.vpc_id,
                     ingress = self.rule_ingress,

@@ -178,7 +178,8 @@ class vpc():
         return networking
 
     def create_subnet(self, name, type):
-         ''' 
+        pass
+        ''' 
         Creates a subnet according to the type specified(private or public)
         
         Parameters
@@ -195,5 +196,5 @@ class vpc():
             A dict with the subnet_id created
 
         '''
-        pass
+        
 

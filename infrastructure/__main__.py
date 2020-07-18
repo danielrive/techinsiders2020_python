@@ -54,7 +54,7 @@ if __name__ == '__main__':
                         'cidrBlocks': ['0.0.0.0/0'],
                        }]
     # SG ALB creation 
-    security_group = aws_sg.aws_sg('sg_alb', net_info['vpc_id'], rule_alb_ingress, rule_alb_egress, aws_config)
+    security_group = aws_sg.aws_sg('alb-sg', net_info['vpc_id'], rule_alb_ingress, rule_alb_egress, aws_config)
 
     alb_sg = security_group.create_sg()
     
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
     services_tg_mapping = [ [tg_ecs['tg_arn'], 'micro-service-tech-globant', '80'] ]
     
-    ecs_service = ecs_aws.create_service('python_micro', services_tg_mapping, net_info['private_subnets'], alb_sg['sg_id'])
+    ecs_service = ecs_aws.create_service('python_micro', 1, 1, services_tg_mapping, net_info['private_subnets'], alb_sg['sg_id'])
 
 
     

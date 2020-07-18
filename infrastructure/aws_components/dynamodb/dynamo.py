@@ -2,24 +2,15 @@ import pulumi
 import pulumi_aws as aws
 
 
-class aws_alb():
+class aws_dynamodb():
     '''
-    A class used to represent a ALB with his components
+    A class used to represent a dynamodb with his components
 
     Methods
     -------
-    create_alb()
+    create_table()
         Creates an AWS ALB with the security group and subtnes specified
     
-    create_listener(self,protocol, port, default_action, certificate='None')
-        Creates and associates a listener to ALB already created
-
-    create_rule(self, rule)
-        Creates an ALB rule and associates with the listener specify
-
-
-    create_tg(self ,port ,protocol, type, health_check)
-        Creates an Target Group to be associate to listener
     '''
 
     def __init__(self, name, subnets, internal, security_groups, provider):

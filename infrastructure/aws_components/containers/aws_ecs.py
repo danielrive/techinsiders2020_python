@@ -87,7 +87,7 @@ class aws_ecs():
                                 container_definitions = container_definition.read(),
                                 __opts__ = pulumi.ResourceOptions(provider = self.provider))
 
-    def create_service(self,name_service,min_task=1,max_tasks=1,target_groups,subnets,sg):
+    def create_service(self, name_service, min_task, max_tasks, target_groups, subnets, sg):
         '''
         Creates a ECS service, by default use fargate to launch the tasks
 
