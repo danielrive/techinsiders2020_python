@@ -164,9 +164,9 @@ def book_id_resource(id):
             delete_item_response = table.delete_item(
                 Key={
                     'id': id
-                }
+                },
+                ConditionExpression=Attr('id').exists()
             )
-            print(delete_item_response)
             body = {"message": "Book with id {} was successfully deleted".format(id)}
             response = make_response(body, 200)
             response.headers['Content-Type'] = 'application/json'
