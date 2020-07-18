@@ -95,7 +95,7 @@ if __name__ == '__main__':
     
     task_micro = ecs_aws.create_taskdf('512', '1024', task_role['role_arn'], execution_role['role_arn'])
 
-    services_tg_mapping = [ [tg_ecs['tg_arn'], 'micro-service-tech-globant', '80'] ]
+    services_tg_mapping = [ [tg_ecs['tg_arn'], 'micro-python', '80'] ]
     
     ecs_service = ecs_aws.create_service('python_micro', 1, 1, services_tg_mapping, net_info['private_subnets'], alb_sg['sg_id'])
 
