@@ -61,7 +61,57 @@ class iam():
                     __opts__= pulumi.ResourceOptions(provider=self.provider))
         
         role_info = {
-                        'role_arn': ecs_role.arn
+                        'role_arn': ecs_role.arn,
+                        'role_name': ecs_role.id
                     }
 
         return role_info
+
+    def attach_policy(self, name, arn_policy, arn_user):
+        '''
+        Parameters
+        ------------
+        name : str
+            An identification for the attachment
+        arn_policy : str
+            ARN Policy to attach 
+
+        arn_user : list
+            The ARN of Roles, users or groups that will have the policy
+        
+        Return
+        -------
+        none
+        '''
+
+        aws.iam.RolePolicyAttachment(name,
+                        policy_arn = arn_policy,
+                        role = arn_user,
+                        __opts__= pulumi.ResourceOptions(provider=self.provider))
+
+
+    def create_policy(self, name, json_policy):
+        '''
+        Parameters
+        ------------
+        name : str
+            The policy name to create
+        json_policy : str
+            A json with the IAM policy to create
+
+        Return
+        -------
+        policy_info : dict
+            ARN policy created
+        '''
+        policy = aws.iam.Policy('policy' + name,
+                        name = 'policy' + name,
+                        path='/',
+                        policy = json_policy,
+                        __opts__= pulumi.ResourceOptions(provider=self.provider))
+
+        policy_info = {
+                        'policy_arn' : policy.arn
+                      }
+        
+        return policy_info

@@ -1,7 +1,7 @@
 [
     {
         "name": "micro-python",
-        "image": "509130302659.dkr.ecr.us-west-2.amazonaws.com/tech-insiders-python",
+        "image": "509130302659.dkr.ecr.us-west-2.amazonaws.com/tech-insiders-books",
         "cpu": 0,
         "memory": null,
         "portMappings": [
@@ -11,13 +11,19 @@
                 "protocol": "tcp"
             }
         ],
+        "environment": [
+            {
+                "name": "DYNAMODB_TABLE",
+                "value": "books"
+            }
+        ],
         "essential": true,
         "logConfiguration": {
             "logDriver": "awslogs",
             "secretOptions": null,
             "options": {
                 "awslogs-group": "/ecs/micro-python",
-                "awslogs-region": "us-east-1",
+                "awslogs-region": "us-west-2",
                 "awslogs-stream-prefix": "ecs"
             }
         }

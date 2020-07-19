@@ -142,7 +142,7 @@ class vpc():
                         routes=[
                            {
                                 'cidr_block': '0.0.0.0/0',
-                                'gateway_id': natgw.id,
+                                'natGatewayId': natgw.id,
                            }
                         ],
                         __opts__= pulumi.ResourceOptions(provider=self.provider),
