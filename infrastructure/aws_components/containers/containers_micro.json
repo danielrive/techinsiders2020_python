@@ -1,13 +1,13 @@
 [
     {
-        "name": "micro-service-tech-globant",
-        "image": "mattrayner/lamp",
+        "name": "micro-python",
+        "image": "509130302659.dkr.ecr.us-west-2.amazonaws.com/tech-insiders-python",
         "cpu": 0,
         "memory": null,
         "portMappings": [
             {
-                "containerPort": 80,
-                "hostPort": 80,
+                "containerPort": 5000,
+                "hostPort": 5000,
                 "protocol": "tcp"
             }
         ],
@@ -16,7 +16,7 @@
             "logDriver": "awslogs",
             "secretOptions": null,
             "options": {
-                "awslogs-group": "/ecs/micro-service-tech-globant",
+                "awslogs-group": "/ecs/micro-python",
                 "awslogs-region": "us-east-1",
                 "awslogs-stream-prefix": "ecs"
             }
