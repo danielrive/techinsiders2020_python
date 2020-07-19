@@ -156,7 +156,7 @@ def books_resource():
             response.headers['Content-Type'] = 'application/json'
             return response
 
-
+## Adding change for testing
 
 @app.route('/resources/books/<id>', methods=['DELETE'])
 def book_id_resource(id):
