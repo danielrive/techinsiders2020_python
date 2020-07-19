@@ -118,7 +118,8 @@ def books_resource():
             except Exception as e:
                 print(str(e))
                 body = {"error": str(e)}
-                response["statusCode"] = 502
+                response = make_response(body, 502)
+                response.headers['Content-Type'] = 'application/json'
                 return response
 
     if request.method == 'PUT':
