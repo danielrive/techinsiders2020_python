@@ -26,7 +26,7 @@ When you create a Pulumi account, Pulumi creates an organization by default, for
 
 1. Login with the account already created and authenticate using the Pulumi CLI.
     ```sh
-    $ Pulumi login
+    $ pulumi login
     ```
     Pulumi will prompt you for an access token, including a method to launch your web browser to easily obtain one access token. Also, you can use the `PULUMI_ACCESS_TOKEN` environment variable to set the Pulumi token.
 
@@ -40,7 +40,7 @@ When you create a Pulumi account, Pulumi creates an organization by default, for
     Install the necessary packages.
 
     ```bash
-    $ Python3 -m venv venv
+    $ python3 -m venv venv
     $ source venv/bin/activate
     $ pip3 install -r requirements.txt
     ```
