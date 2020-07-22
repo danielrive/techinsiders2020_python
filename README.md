@@ -44,7 +44,7 @@ When you create a Pulumi account, Pulumi creates an organization by default, for
     $ source venv/bin/activate
     $ pip3 install -r requirements.txt
     ```
-4. Set the AWS Configuration
+4. Set the AWS Configuration.
     Pulumi creates a file named Pulumi.<Stack_Name>.yml with some configurations by default, for instance, the AWS Region. These configurations can be accessed through the Python code.
     For this project you need to set two configurations for each stack, the AWS region in which you want to create the resources and the AWS profile that contains the AWS credentials.
 
