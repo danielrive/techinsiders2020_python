@@ -1,4 +1,6 @@
-
+#Pulumi configs
+Pulumi*.yml
+Pulumi.yml
 
 *.pyc
 venv/

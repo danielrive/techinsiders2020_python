@@ -43,8 +43,8 @@ class iam():
         
         Return
         -------
-        role_info : dict
-            A dict with the IAM ARN role
+        role_info : Pulumi output
+            a object with informationabout the resource created
         '''
         
         role_policy_doc = aws.iam.get_policy_document(statements=[{
@@ -60,12 +60,7 @@ class iam():
                     assume_role_policy = role_policy_doc.json,
                     __opts__= pulumi.ResourceOptions(provider=self.provider))
         
-        role_info = {
-                        'role_arn': ecs_role.arn,
-                        'role_name': ecs_role.id
-                    }
-
-        return role_info
+        return ecs_role
 
     def attach_policy(self, name, arn_policy, arn_user):
         '''
@@ -101,17 +96,13 @@ class iam():
 
         Return
         -------
-        policy_info : dict
-            ARN policy created
+        role_info : Pulumi output
+            a object with informationabout the resource created
         '''
         policy = aws.iam.Policy('policy' + name,
                         name = 'policy' + name,
                         path='/',
                         policy = json_policy,
                         __opts__= pulumi.ResourceOptions(provider=self.provider))
-
-        policy_info = {
-                        'policy_arn' : policy.arn
-                      }
-        
-        return policy_info
+       
+        return policy
