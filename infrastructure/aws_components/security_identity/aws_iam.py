@@ -47,17 +47,22 @@ class iam():
             a object with informationabout the resource created
         '''
         
-        role_policy_doc = aws.iam.get_policy_document(statements=[{
-                'actions': ['sts:AssumeRole'],
-                'principals': [{
-                    'identifiers': [self.aws_services[aws_service]],
-                    'type': 'Service',
-                }],
-            }],
-            opts = pulumi.ResourceOptions(provider=self.provider))
-
         ecs_role = aws.iam.Role(name_role+self.name,
-                    assume_role_policy = role_policy_doc.json,
+                    assume_role_policy = """{
+                                    "Version": "2012-10-17",
+                                    "Statement": [
+                                        {
+                                        "Action": "sts:AssumeRole",
+                                        "Principal": {
+                                            "Service": "ecs.amazonaws.com"
+                                        },
+                                        "Effect": "Allow",
+                                        "Sid": ""
+                                        }
+                                    ]
+                                    }
+
+                                    """,
                     __opts__= pulumi.ResourceOptions(provider=self.provider))
         
         return ecs_role

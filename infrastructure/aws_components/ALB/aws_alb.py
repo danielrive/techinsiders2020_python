@@ -36,7 +36,7 @@ class aws_alb:
         self.internal = internal
         self.security_groups = security_groups
         self.provider = provider
-        self.alb = []
+        self.alb_info = {}
 
     def create_alb(self):
         '''
@@ -61,13 +61,13 @@ class aws_alb:
                           'Name': self.name,
                           'Createdby': 'Pulumi'
                     })
-        alb_info = { 
+        self.alb_info = { 
                     'alb_arn':  self.alb.arn,
                     'alb_dns': self.alb.dns_name,
                     'alb_zone_id': self.alb.zone_id
                     }
 
-        return alb_info
+        return self.alb_info
 
     def create_listener(self,protocol, port, default_action, certificate='None'):
         '''
@@ -112,7 +112,7 @@ class aws_alb:
         if protocol == 'HTTP':
             alb_listener = aws.lb.Listener('listener-{}-{}'.format(port,self.name),
                         default_actions = [action],
-                        load_balancer_arn = self.alb.arn,
+                        load_balancer_arn = self.alb_info['alb_arn'],
                         port = port,
                         protocol = protocol,
                         __opts__ = pulumi.ResourceOptions(provider = self.provider))
@@ -121,10 +121,12 @@ class aws_alb:
                         default_actions = [action],
                         certificate_arn = certificate,
                         ssl_policy = 'ELBSecurityPolicy-2016-08',
-                        load_balancer_arn = self.alb.arn,
+                        load_balancer_arn = self.alb_info['alb_arn'],
                         port = port,
                         protocol = protocol,
                         __opts__ = pulumi.ResourceOptions(provider = self.provider))
+        
+        return alb_listener
 
 
     def create_rule(self, rule):
