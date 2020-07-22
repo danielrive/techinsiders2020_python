@@ -1,11 +1,11 @@
 # Tech Insiders Globant 2020
 
-This project deploys a Python microservice in AWS ECS, using Pulumi and Python to define the infrastructure. Additionally it uses AWS Codepipeline to deploy continously to the Production branch.
+This project deploys a Python microservice in AWS ECS, using Pulumi and Python to define the infrastructure. Additionally it uses AWS Codepipeline to deploy continuously to the Production branch.
 
 # Requirements
 
 * **Python:** Infrastructure and microservices were built in Python. Python 3.6 or later is required.
-* **AWS Account:** The Pulumi code was created to deploy resources in AWS, you need an AWS account and create an IAM user with programmatic access.
+* **AWS Account:** The Pulumi code was created to deploy resources in AWS, you need an AWS account and and an IAM user with programmatic access.
 * **Pulumi Account:** You need a Pulumi account to store the state of your infrastructure and manage your project, please follow this link for more information.
 https://www.Pulumi.com/docs/intro/console/accounts-and-organizations/accounts/
 * **Pulumi CLI:** You need the Pulumi CLI to deploy the infrastructure changes in AWS.
@@ -24,21 +24,20 @@ Pulumi uses a Python virtual environment, the file requirements.txt specifies th
 
 When you create a Pulumi account, Pulumi creates an organization by default, for a free account you can create only one organization. Each organization might have projects and stacks.
 
-1. Login
-    With the account already created and Pulumi CLI installed you can authenticate through the terminal.
+1. Login with the account already created and authenticate using the Pulumi CLI.
     ```sh
     $ Pulumi login
     ```
-    Pulumi will prompt you for an access token, including a method to launch your web browser to easily obtain one access token. Also, you can use `PULUMI_ACCESS_TOKEN` environment variable to set the Pulumi token.
+    Pulumi will prompt you for an access token, including a method to launch your web browser to easily obtain one access token. Also, you can use the `PULUMI_ACCESS_TOKEN` environment variable to set the Pulumi token.
 
-2. Create the Pulumi project and stack
+2. Create the Pulumi project and stack.
     Create a file  from `Pulumi.yml.example`  and set it the name to Pulumi.yml.
     To create the project and stack, run:
     ```sh
     $ pulumi stack init <STACK_NAME>
     ```
-3. Create a Python virtual environment
-    Install the necessary packages
+3. Create a Python virtual environment.
+    Install the necessary packages.
 
     ```bash
     $ Python3 -m venv venv
@@ -71,7 +70,7 @@ You can review the resources that Pulumi will create or modify.
 $ pulumi preview
 ```
 
-If you are sure that the changes, you can proceed and apply the changes.
+If you are sure about the changes, you can proceed and apply them.
 ```bash
 $ pulumi up
 ```
