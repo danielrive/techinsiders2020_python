@@ -1,32 +1,95 @@
-import os
 import pulumi
 import pulumi_aws as aws
 
 
 class aws_sg():
-    def __init__(self, provider):
+    '''
+    A class used to represent a AWS Security Group
+
+    Methods
+    -------
+    create_sg()
+        Creates a Security Group with the first rules(ingress and egress)
+    create_rule(name,type,ip,port,description)
+        Creates a Security Group rule and associates it to SG created
+    '''
+    def __init__(self, vpc_id, provider):
+        '''
+        Parameters
+        ------------
+        name : str
+            An unique name to assign to the Security Group
+        vpc_id : str
+            A VPC ID to associate the Security Group
+        provider: str
+            A pulumi provider configurations, according to this attribute the AWS resources
+            will be created in the region and credentials specified.
+        '''
+        self.vpc_id = vpc_id
         self.provider = provider
 
-    def create_sg(self,name, vpc_id, rule_ingress,rule_egress):
+    def create_sg(self, name, rule_ingress, rule_egress):
+        '''
+        Creates a security group into the vpc specified, assigns the rules passed in the lists
+        
+        Parameters
+        -----------
+        rule_ingress : list
+            A list of dicts with the ingress rule to create, the format fot the dict should 
+            be like
+                        {'description': 'allow_https',
+                        'fromPort': 443,
+                        'toPort': 443,
+                        'protocol': 'tcp',
+                        'cidrBlocks': ['0.0.0.0/0']}
 
+        rule_egress : list
+            A list of dicts with the egress rule to create
+
+        Returns 
+        --------
+        sg_info : dict
+            A dict with the sg_id and ARN
+
+        '''
         sg = aws.ec2.SecurityGroup(name, 
-                    description = 'Allow TLS inbound traffic',
-                    vpc_id = vpc_id,
+                    description = 'SG-' + name,
+                    vpc_id = self.vpc_id,
                     ingress = rule_ingress,
                     egress = rule_egress,
                     __opts__= pulumi.ResourceOptions(provider=self.provider),
                     tags={
-                          'Name': name,
+                          'Name': 'SG-' + name,
                           'Createdby': 'Pulumi'
                     })
 
+        # returns
         sg_info = { 'sg_arn' :sg.arn,
                     'sg_id' : sg.id
                   }
         
         return sg_info
     
-    def add_ingress_rule(self,rule):
-        pass
-    def add_egress_rule(self,rule):
+    def add_rule(self,name, type, ip, port, description="none"):
+        '''
+        Creates a ingress or egress rules and assign to the SG created
+        
+        Parameters
+        -----------
+        name : str
+            A name to assign to the rule
+        type : str
+            Type of rule, ingress or egress
+        ip : str
+            A CIDR block to allow in the rule
+        port : int
+            the port to open
+        description : str
+            optional
+            A little description for the rule to create
+        
+        Returns 
+        --------
+        none
+        '''
         pass

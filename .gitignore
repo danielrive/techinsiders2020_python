@@ -1,3 +1,5 @@
+
+
 *.pyc
 venv/
 # vscod
@@ -142,5 +144,12 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+<<<<<<< HEAD
 # pre-commit
 .pre-commit-config.yaml
+=======
+# Pulumi
+Pulumi.yaml
+Pulumi.*.yaml
+
+>>>>>>> 0ac09b8137730fbee3d98185e8a87cca14950c65

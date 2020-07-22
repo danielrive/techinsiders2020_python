@@ -1,11 +1,34 @@
-import os
 import pulumi
 import pulumi_aws as aws
 import ipaddress as ip
 
 
 class vpc():
+    '''
+    A class used to represent an AWS Networking resources
+
+    Methods
+    -------
+    create_basic_networking()
+        Creates a
+    '''
     def __init__(self,name, net_address, cidr_public, cidr_private, provider):
+        '''
+        Parameters
+        ------------
+        name : str
+            An unique name to assign to VPC and resouces related
+        net_address : str
+            An IP address to assing to the VPC, specify the Mask by /
+            This is the address for the network
+        cidr_public : list
+            A CIDR block to assing to public subnets, should be into the net_address specified
+        cidr_private : list
+            A CIDR block to assing to private subnets, should be into the net_address specified
+        provider: str
+            A pulumi provider configurations, according to this attribute the AWS resources
+            will be created in the region and credentials specified.
+        '''
         self.name = name
         self.net_address = net_address
         self.cidr_public = cidr_public
@@ -16,6 +39,22 @@ class vpc():
         self.az_available = aws.get_availability_zones(state='available',opts=pulumi.ResourceOptions(provider=self.provider))
 
     def create_basic_networking(self):
+        ''' 
+        Creates the components to support a basic networking following the best AWS
+        practices like two AZ for HA, public and private subnets.
+        This method will create:
+            2 public subnets with a route table(for both) and internet gateway
+            2 privates subnets with a route table(for both) and NAT Gateway
+        Parameters
+        -----------
+        none
+
+        Returns 
+        --------
+        networking : dict
+            A dict with the vpc_id, a list with subnet_id(public and private)
+
+        '''
         vpc_pulumi = aws.ec2.Vpc('vpc_pulumi_{}'.format(self.name),
                                  cidr_block=self.net_address,
                                  enable_dns_support=True,
@@ -24,8 +63,8 @@ class vpc():
                                      provider=self.provider),
                                  tags={
                                      'Name': 'vpc_{}'.format(self.name),
-            'Createdby': 'Pulumi'
-        })
+                                     'Createdby': 'Pulumi'
+                                })
 
         # Public subnets creation
         for i in range(len(self.cidr_public)):
@@ -103,7 +142,7 @@ class vpc():
                         routes=[
                            {
                                 'cidr_block': '0.0.0.0/0',
-                                'gateway_id': natgw.id,
+                                'natGatewayId': natgw.id,
                            }
                         ],
                         __opts__= pulumi.ResourceOptions(provider=self.provider),
@@ -138,6 +177,24 @@ class vpc():
 
         return networking
 
-    def create_subnet(self, type,name):
+    def create_subnet(self, name, type):
         pass
+        ''' 
+        Creates a subnet according to the type specified(private or public)
+        
+        Parameters
+        -----------
+        name : str
+            the unique name for the subnet
+        
+        type : str
+            valid values, public or private
+
+        Returns 
+        --------
+        subnet : dict
+            A dict with the subnet_id created
+
+        '''
+        
 
