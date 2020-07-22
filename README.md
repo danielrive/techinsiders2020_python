@@ -1,19 +1,17 @@
 # Tech Insiders Globant 2020
 
-This project deploy a microservice in AWS ECS, this one was create in Python and the infrastructure to support it can be launched by Pulumi.
+This project deploys a Python microservice in AWS ECS, using Pulumi and Python to define the infrastructure. Additionally it uses AWS Codepipeline to deploy continously to the Production branch.
 
-# Requirements 
+# Requirements
 
-* **Pyhton:** Infrastructure and microservices was built in python. you need to install Python version 3.6 or later is required.
-* **AWS Account:** The Pulumi code was created to deploy resources in AWS Cloud, you need to have an account and create an IAM user with programmatic access.
-* **Pulumi Account:** To store the state of your infrastructure and manage your project you need to create a Pulumi account, please follow this link to more information.
+* **Python:** Infrastructure and microservices were built in python. Python 3.6 or later is required.
+* **AWS Account:** The Pulumi code was created to deploy resources in AWS, you need an AWS account and create an IAM user with programmatic access.
+* **Pulumi Account:** You need a Pulumi account to store the state of your infrastructure and manage your project, please follow this link for more information.
 
-    Go through the Pulumi documentation to install Pulumi CLI
-  https://www.Pulumi.com/docs/intro/console/accounts-and-organizations/accounts/
-* **Pulumi CLI:** To manage Pulumi you need to install Pulumi CLI, with the CLI you can deploy infrastructure changes in your cloud provider.
+https://www.Pulumi.com/docs/intro/console/accounts-and-organizations/accounts/
+* **Pulumi CLI:** You need the Pulumi CLI to deploy the infrastructure changes in AWS.
 
-    Go through the Pulumi documentation to install Pulumi CLI.
-    https://www.Pulumi.com/docs/get-started/install/
+https://www.Pulumi.com/docs/get-started/install/
 
 # AWS Architecture
 
@@ -54,21 +52,21 @@ When you create a Pulumi account, Pulumi creates an organization by default, for
     For this project you need to set two configurations for each stack, the AWS region in which you want to create the resources and the AWS profile that contains the AWS credentials.
 
     Configure the AWS credentials into your laptop(for Linux  ~/.aws/credentials), you need to use the following format:
-    
+
     ```bash
     [Profile_name]
     aws_access_key_id = Replace_for_correct_Access_Key
     aws_secret_access_key = Replace_for_correct_Secret_Key
     ```
-    
+
     Run the following commands to set the configurations into the stack
-    
+
     ```bash
     $ pulumi config set  aws:region <AWS_Region>
 
     $ pulumi config set  aws_profile <AWS_profile>
     ```
-# Deploy 
+# Deploy
 
 You can make a review of the resources that pulumi will create or modify.
 ```bash
@@ -90,6 +88,3 @@ $ pulumi stack rm
 
 $ pulumi logout
 ```
-
-
-
