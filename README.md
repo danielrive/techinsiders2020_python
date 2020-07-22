@@ -76,7 +76,7 @@ $ pulumi up
 ```
 
 # Destroy
-If you don't want to keep the resources created and you want to delete the stack, run:
+If you do not want to keep the resources created and you want to delete the stack, run:
 
 ```bash
 $ pulumi destroy
