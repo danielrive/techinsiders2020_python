@@ -20,16 +20,17 @@ policy_ecs = 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePol
 # load env variables
 load_dotenv()
 
+# Provider for testing
+aws_config_testing = aws.Provider(
+     'aws_testing',region='us-west-2',
+     profile='testing_profile'
+)
+
 ##### creating custom aws provider
 
-# aws_config = aws.Provider(
-#      'aws',region=config.require('aws_region'),
-#      profile=config.require('aws_profile')
-# )
-
 aws_config = aws.Provider(
-     'aws',region='us-west-2',
-     profile='danielr'
+     'aws',region=config.require('aws_region'),
+     profile=config.require('aws_profile')
 )
 
 Azs_Availables = aws.get_availability_zones(
