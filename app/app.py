@@ -20,7 +20,7 @@ app = Flask(__name__)
 # Health check
 @app.route("/")
 def health_check():
-    return {"status": "Ok"}
+    return {"status": "todo ok"}
 
 
 @app.route("/resources/books", methods=("GET", "POST", "PUT"))
